@@ -1,0 +1,26 @@
+import numpy as np
+import requests
+import io
+
+# URL of the CSV file
+url = 'https://example.com/data.csv'
+
+# Send a GET request to fetch the data from the URL
+response = requests.get(url)
+
+# Check if the request was successful (status code 200)
+if response.status_code == 200:
+    # Read the content of the response into a string buffer
+    data = response.content.decode('utf-8')
+    
+    # Use io.StringIO to create a file-like object for NumPy to read from
+    data_file = io.StringIO(data)
+    
+    # Load the data into a NumPy array using np.genfromtxt or np.loadtxt
+    # Assuming data.csv has comma-separated values (CSV) format
+    numpy_data = np.genfromtxt(data_file, delimiter=',')
+    
+    # Print the loaded data
+    print(numpy_data)
+else:
+    print(f"Failed to retrieve data from {url}. Status code: {response.status_code}")
